@@ -19,7 +19,10 @@
     },
     "homepage": "https://github.com/abhikmr333/chat-app-react-firebase#readme",
     "devDependencies": {
-        "parcel": "^2.13.3"
+        "@tailwindcss/postcss": "^4.0.0",
+        "parcel": "^2.13.3",
+        "process": "^0.11.10",
+        "tailwindcss": "^4.0.0"
     },
     "dependencies": {
         "react": "^19.0.0",
