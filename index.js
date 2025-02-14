@@ -1,7 +1,7 @@
 import { createRoot } from "react-dom/client";
-import SignIn from "./src/components/SignIn";
-import SignUp from "./src/components/SignUp";
+import { RouterProvider } from "react-router";
+import { appRoute } from "./src/App";
 
 const rootNode = document.querySelector("#root");
 const root = createRoot(rootNode);
-root.render(<SignIn />);
+root.render(<RouterProvider router={appRoute} />);
