@@ -1,5 +1,7 @@
 import { createRoot } from "react-dom/client";
+import SignIn from "./src/components/SignIn";
+import SignUp from "./src/components/SignUp";
 
 const rootNode = document.querySelector("#root");
 const root = createRoot(rootNode);
-root.render(<div className="bg-amber-400">Hello</div>);
+root.render(<SignIn />);
