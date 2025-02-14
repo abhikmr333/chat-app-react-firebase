@@ -1,4 +1,23 @@
+import { useState } from "react";
+
 const SignUp = () => {
+    const [userName, setUserName] = useState("");
+    const [emailAddress, setEmailAddress] = useState("");
+    const [password, setPassword] = useState("");
+
+    const handleUserName = (event) => {
+        const { value } = event.target;
+        setUserName(value);
+    };
+    const handleEmailAddress = (event) => {
+        const { value } = event.target;
+        setEmailAddress(value);
+    };
+    const handlePassword = (event) => {
+        const { value } = event.target;
+        setPassword(value);
+    };
+
     return (
         <>
             <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -27,6 +46,8 @@ const SignUp = () => {
                                     id="username"
                                     name="username"
                                     className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                    onChange={handleUserName}
+                                    value={userName}
                                 />
                             </div>
                         </div>
@@ -45,6 +66,8 @@ const SignUp = () => {
                                     required
                                     autoComplete="email"
                                     className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                    onChange={handleEmailAddress}
+                                    value={emailAddress}
                                 />
                             </div>
                         </div>
@@ -65,6 +88,8 @@ const SignUp = () => {
                                     type="password"
                                     required
                                     className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                    onChange={handlePassword}
+                                    value={password}
                                 />
                             </div>
                         </div>
