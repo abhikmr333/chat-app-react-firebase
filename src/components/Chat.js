@@ -4,7 +4,7 @@ import Messages from "./Messages";
 
 const Chat = () => {
     return (
-        <div className="flex-2 border-1 flex flex-col">
+        <div className="flex-2 border-1 flex flex-col h-screen">
             <ChatHeader />
             <Messages />
             <ChatFooter />

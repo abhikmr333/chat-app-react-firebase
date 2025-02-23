@@ -2,7 +2,7 @@ import userAvatar from "/userAvatar.png";
 
 const ChatList = () => {
     return (
-        <section className=" overflow-y-scroll">
+        <section className="overflow-y-scroll">
             <div className=" p-8 pb-0">
                 <input className="border-1" type="text" placeholder="search" />
                 <button className="bg-blue-500 text-white ml-4"> add </button>
