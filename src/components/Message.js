@@ -1,4 +1,12 @@
+import { useRef } from "react";
+import { useEffect } from "react";
+
 const Message = () => {
+    const endRef = useRef(null);
+    useEffect(() => {
+        endRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, []);
+
     return (
         <>
             <div className=" ml-auto w-72 bg-gray-300 m-1 rounded-md p-1">
@@ -29,6 +37,7 @@ const Message = () => {
                     eaque maiores atque harum laudantium dignissimos at et recusandae!
                 </p>
             </div>
+            <div ref={endRef}></div>
         </>
     );
 };
