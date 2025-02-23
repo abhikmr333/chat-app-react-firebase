@@ -37,6 +37,7 @@ const Message = () => {
                     eaque maiores atque harum laudantium dignissimos at et recusandae!
                 </p>
             </div>
+            {/* To Scroll towards the end of chat box */}
             <div ref={endRef}></div>
         </>
     );

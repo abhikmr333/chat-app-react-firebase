@@ -3,14 +3,14 @@ import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
 import UserList from "./components/UserList";
 import Chat from "./components/Chat";
-import UserDetail from "./components/UserDetail";
+import ChatDetail from "./components/ChatDetail";
 
 const App = () => {
     return (
         <div className="w-screen flex">
             <UserList />
             <Chat />
-            <UserDetail />
+            <ChatDetail />
         </div>
     );
 };
