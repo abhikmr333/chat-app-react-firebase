@@ -1,17 +1,28 @@
 import { useState } from "react";
+import validateForm from "../utils/validate";
 
 const SignIn = () => {
     const [emailAddress, setEmailAddress] = useState("");
     const [password, setPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState(null);
 
     const handleEmailAddress = (event) => {
+        if (errorMessage) setErrorMessage(null);
         const { value } = event.target;
         setEmailAddress(value);
     };
 
     const handlePassword = (event) => {
+        if (errorMessage) setErrorMessage(null);
         const { value } = event.target;
         setPassword(value);
+    };
+
+    const handleValidation = (event) => {
+        event.preventDefault();
+        const result = validateForm(emailAddress, password);
+        if (result) setErrorMessage(result);
+        //else login
     };
 
     return (
@@ -29,7 +40,7 @@ const SignIn = () => {
                 </div>
 
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                    <form action="#" method="POST" className="space-y-6">
+                    <form className="space-y-6">
                         <div>
                             <label
                                 htmlFor="email"
@@ -80,11 +91,27 @@ const SignIn = () => {
                                 />
                             </div>
                         </div>
-
+                        {errorMessage && (
+                            <p>
+                                {errorMessage.includes("Password") ? (
+                                    <>
+                                        <h1>Password not Valid!</h1>
+                                        <ul className="">
+                                            <li>One uppercase letter</li>
+                                            <li>One upecial character</li>
+                                            <li>One number</li>
+                                        </ul>
+                                    </>
+                                ) : (
+                                    errorMessage
+                                )}
+                            </p>
+                        )}
                         <div>
                             <button
                                 type="submit"
                                 className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                onClick={handleValidation}
                             >
                                 Sign in
                             </button>
