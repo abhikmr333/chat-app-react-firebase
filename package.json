@@ -20,9 +20,18 @@
     "homepage": "https://github.com/abhikmr333/chat-app-react-firebase#readme",
     "devDependencies": {
         "@tailwindcss/postcss": "^4.0.0",
+        "buffer": "^6.0.3",
+        "crypto-browserify": "^3.12.1",
+        "dotenv": "^16.4.7",
+        "events": "^3.3.0",
+        "os-browserify": "^0.3.0",
         "parcel": "^2.13.3",
+        "path-browserify": "^1.0.1",
         "process": "^0.11.10",
-        "tailwindcss": "^4.0.0"
+        "stream-browserify": "^3.0.0",
+        "string_decoder": "^1.3.0",
+        "tailwindcss": "^4.0.0",
+        "vm-browserify": "^1.1.2"
     },
     "dependencies": {
         "react": "^19.0.0",
