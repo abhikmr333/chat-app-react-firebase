@@ -18,7 +18,7 @@ const SignIn = () => {
         setPassword(value);
     };
 
-    const handleValidation = (event) => {
+    const handleSignIn = (event) => {
         event.preventDefault();
         const result = validateForm(emailAddress, password);
         if (result) setErrorMessage(result);
@@ -111,7 +111,7 @@ const SignIn = () => {
                             <button
                                 type="submit"
                                 className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                onClick={handleValidation}
+                                onClick={handleSignIn}
                             >
                                 Sign in
                             </button>
