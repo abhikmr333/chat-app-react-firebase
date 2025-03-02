@@ -7,7 +7,7 @@ const SignUp = () => {
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState(null);
 
-    const handleValidation = (event) => {
+    const handleSignUp = (event) => {
         event.preventDefault();
         const result = validateForm(emailAddress, password);
         if (result) setErrorMessage(result);
@@ -124,7 +124,7 @@ const SignUp = () => {
                             <button
                                 type="submit"
                                 className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                onClick={handleValidation}
+                                onClick={handleSignUp}
                             >
                                 Sign Up
                             </button>
