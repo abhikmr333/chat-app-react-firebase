@@ -95,7 +95,7 @@ const SignIn = () => {
                             <p>
                                 {errorMessage.includes("Password") ? (
                                     <>
-                                        <h1>Password not Valid!</h1>
+                                        <span>Password not Valid!</span>
                                         <ul className="">
                                             <li>One uppercase letter</li>
                                             <li>One upecial character</li>

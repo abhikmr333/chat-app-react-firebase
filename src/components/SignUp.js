@@ -1,5 +1,8 @@
 import { useState } from "react";
 import validateForm from "../utils/validate";
+import { auth, db } from "../lib/firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
 
 const SignUp = () => {
     const [userName, setUserName] = useState("");
@@ -7,11 +10,35 @@ const SignUp = () => {
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState(null);
 
-    const handleSignUp = (event) => {
+    const handleSignUp = async (event) => {
         event.preventDefault();
         const result = validateForm(emailAddress, password);
-        if (result) setErrorMessage(result);
-        //else signup
+        if (result) {
+            setErrorMessage(result);
+            return;
+        }
+        try {
+            //create user
+            const userCredential = await createUserWithEmailAndPassword(
+                auth,
+                emailAddress,
+                password
+            );
+            const { uid } = userCredential.user;
+            //create a document with specific id inside users collection
+            await setDoc(doc(db, "users", uid), {
+                username: userName,
+                email: emailAddress,
+                id: uid,
+                blockList: [],
+            });
+            //create a document with specific id(uid) inside userchats collection
+            await setDoc(doc(db, "userchats", uid), {
+                chats: [],
+            });
+        } catch (err) {
+            setErrorMessage(err.message);
+        }
     };
 
     const handleUserName = (event) => {
@@ -44,7 +71,7 @@ const SignUp = () => {
                 </div>
 
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                    <form className="space-y-6">
+                    <form className="space-y-6" onSubmit={handleSignUp}>
                         <div>
                             <label
                                 htmlFor="username"
@@ -105,10 +132,10 @@ const SignUp = () => {
                             </div>
                         </div>
                         {errorMessage && (
-                            <p>
+                            <div>
                                 {errorMessage.includes("Password") ? (
                                     <>
-                                        <h1>Password not Valid!</h1>
+                                        <span>Password not Valid!</span>
                                         <ul className="">
                                             <li>One uppercase letter</li>
                                             <li>One upecial character</li>
@@ -118,13 +145,12 @@ const SignUp = () => {
                                 ) : (
                                     errorMessage
                                 )}
-                            </p>
+                            </div>
                         )}
                         <div>
                             <button
                                 type="submit"
                                 className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                onClick={handleSignUp}
                             >
                                 Sign Up
                             </button>
