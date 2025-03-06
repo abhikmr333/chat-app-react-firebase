@@ -3,12 +3,44 @@ import validateForm from "../utils/validate";
 import { auth, db } from "../lib/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
+import userAvatar from "/userAvatar.png";
+import { CLOUDINARY_API_URL } from "../utils/constants";
 
 const SignUp = () => {
     const [userName, setUserName] = useState("");
     const [emailAddress, setEmailAddress] = useState("");
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState(null);
+    const [profilePic, setProfilePic] = useState(null);
+
+    const uploadImageToCloudinary = async (event) => {
+        setErrorMessage(null);
+        const { files } = event.target;
+        //extracting the first image
+        const file = files[0];
+        if (!file) {
+            //doesn't work if the user presses cancel first time
+            setErrorMessage("Please Select a Profile Pic");
+            return;
+        }
+        try {
+            const formData = new FormData();
+            formData.append("file", file);
+            formData.append("upload_preset", "preset_profile_pics");
+
+            const response = await fetch(CLOUDINARY_API_URL, {
+                method: "POST",
+                body: formData,
+            });
+
+            const result = await response.json();
+            console.log(result);
+            setProfilePic(result.secure_url);
+        } catch (err) {
+            console.log("error");
+            setErrorMessage(err.message);
+        }
+    };
 
     const handleSignUp = async (event) => {
         event.preventDefault();
@@ -60,11 +92,6 @@ const SignUp = () => {
         <>
             <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
                 <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-                    <img
-                        alt="Your Company"
-                        src="https://tailwindui.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
-                        className="mx-auto h-10 w-auto"
-                    />
                     <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">
                         Create an Account
                     </h2>
@@ -72,6 +99,21 @@ const SignUp = () => {
 
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                     <form className="space-y-6" onSubmit={handleSignUp}>
+                        <div className="flex flex-col justify-center items-center">
+                            <img
+                                className="h-22 w-22"
+                                src={profilePic ? profilePic : userAvatar}
+                                alt="user avatar"
+                            />
+                            <input
+                                className="border-1 text-white bg-indigo-600 rounded-md w-42"
+                                type="file"
+                                id="avatar"
+                                name="avatar"
+                                accept="image/png, image/jpeg"
+                                onChange={uploadImageToCloudinary}
+                            />
+                        </div>
                         <div>
                             <label
                                 htmlFor="username"
