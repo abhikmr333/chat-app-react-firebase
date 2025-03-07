@@ -11,7 +11,9 @@ const SignUp = () => {
     const [emailAddress, setEmailAddress] = useState("");
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState(null);
-    const [profilePic, setProfilePic] = useState(null);
+    const [profilePic, setProfilePic] = useState(
+        "https://img.icons8.com/fluency-systems-filled/96/user.png"
+    );
 
     const uploadImageToCloudinary = async (event) => {
         setErrorMessage(null);
@@ -32,12 +34,10 @@ const SignUp = () => {
                 method: "POST",
                 body: formData,
             });
-
+            if (!response.ok) throw new Error("Something went wrong!");
             const result = await response.json();
-            console.log(result);
             setProfilePic(result.secure_url);
         } catch (err) {
-            console.log("error");
             setErrorMessage(err.message);
         }
     };
@@ -62,6 +62,7 @@ const SignUp = () => {
                 username: userName,
                 email: emailAddress,
                 id: uid,
+                avatar: profilePic,
                 blockList: [],
             });
             //create a document with specific id(uid) inside userchats collection

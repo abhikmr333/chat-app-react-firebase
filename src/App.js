@@ -4,8 +4,14 @@ import SignUp from "./components/SignUp";
 import UserList from "./components/Users/UserList";
 import Chat from "./components/Chat/Chat";
 import ChatDetail from "./components/ChatDetail/ChatDetail";
+import { useEffect } from "react";
+import { useNavigate } from "react-router";
 
 const App = () => {
+    const navigate = useNavigate();
+    //setting an observer for better navigation
+    useEffect(() => {}, []);
+
     return (
         <div className="w-screen flex">
             <UserList />

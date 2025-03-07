@@ -1,5 +1,7 @@
 import { useState } from "react";
 import validateForm from "../utils/validate";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../lib/firebase";
 
 const SignIn = () => {
     const [emailAddress, setEmailAddress] = useState("");
@@ -18,11 +20,20 @@ const SignIn = () => {
         setPassword(value);
     };
 
-    const handleSignIn = (event) => {
+    const handleSignIn = async (event) => {
         event.preventDefault();
         const result = validateForm(emailAddress, password);
-        if (result) setErrorMessage(result);
-        //else login
+        if (result) {
+            setErrorMessage(result);
+            return;
+        }
+        //signin the user
+        try {
+            await signInWithEmailAndPassword(auth, emailAddress, password);
+            //signedin
+        } catch (err) {
+            setErrorMessage(err.message);
+        }
     };
 
     return (
@@ -91,22 +102,7 @@ const SignIn = () => {
                                 />
                             </div>
                         </div>
-                        {errorMessage && (
-                            <p>
-                                {errorMessage.includes("Password") ? (
-                                    <>
-                                        <span>Password not Valid!</span>
-                                        <ul className="">
-                                            <li>One uppercase letter</li>
-                                            <li>One upecial character</li>
-                                            <li>One number</li>
-                                        </ul>
-                                    </>
-                                ) : (
-                                    errorMessage
-                                )}
-                            </p>
-                        )}
+                        {errorMessage && <p>{errorMessage}</p>}
                         <div>
                             <button
                                 type="submit"
