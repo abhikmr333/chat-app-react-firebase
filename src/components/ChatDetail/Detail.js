@@ -2,9 +2,19 @@
 import arrowUp from "/arrowUp.png";
 import arrowDown from "/arrowDown.png";
 import { useState } from "react";
+import { auth } from "../../lib/firebase";
+import { signOut } from "firebase/auth";
 
 const Detail = () => {
     const [viewMenuNumber, setViewMenuNumber] = useState(null);
+
+    const logOut = async () => {
+        try {
+            await signOut(auth);
+        } catch (err) {
+            console.log("Error Logging Out");
+        }
+    };
 
     //not using event-delegation for toggling accordion(only 5 buttons)
     const handleAccordion = (event) => {
@@ -17,8 +27,6 @@ const Detail = () => {
         { name: "1", label: "Shared Photos" },
         { name: "2", label: "Privacy & Help" },
         { name: "3", label: "Chat Settings" },
-        { name: "4", label: "Block User" },
-        { name: "5", label: "Logout" },
     ];
 
     return (
@@ -40,6 +48,15 @@ const Detail = () => {
                     </button>
                 );
             })}
+            <button className="flex justify-between items-center bg-blue-400 p-2 m-4 rounded-md">
+                Block User
+            </button>
+            <button
+                className="flex justify-between items-center bg-red-400 p-2 m-4 rounded-md"
+                onClick={logOut}
+            >
+                Logout
+            </button>
         </section>
     );
 };
