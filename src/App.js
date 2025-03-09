@@ -9,6 +9,8 @@ import { useNavigate } from "react-router";
 import { onAuthStateChanged } from "firebase/auth";
 import { useEffect } from "react";
 import { auth } from "./lib/firebase";
+import { Provider } from "react-redux";
+import appStore from "./redux/appStore";
 
 const App = () => {
     const path = useLocation().pathname;
@@ -21,6 +23,7 @@ const App = () => {
             if (user) {
                 // User is signed in
                 const uid = user.uid;
+                console.log(user);
                 navigate("/chat");
             } else {
                 // User is signed out
@@ -33,10 +36,10 @@ const App = () => {
     }, []);
 
     return (
-        <>
+        <Provider store={appStore}>
             {path !== "/chat" && <Header />}
             <Outlet />
-        </>
+        </Provider>
     );
 };
 
