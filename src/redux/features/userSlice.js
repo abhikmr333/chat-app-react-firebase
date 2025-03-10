@@ -19,18 +19,22 @@ const userSlice = createSlice({
         isError: false,
     },
     reducers: {
-        deleteUser: (state) => null,
+        deleteUser: (state) => {
+            state.currentUser = null;
+            state.isLoading = false;
+            state.isError = false;
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(fetchUserInfo.fulfilled, (state, action) => {
             state.isLoading = false;
-            state.data = action.payload;
+            state.currentUser = action.payload;
         });
         builder.addCase(fetchUserInfo.rejected, (state, action) => {
             console.log("Error: ", action.payload);
             state.isError = true;
         });
-        builder.addCase(fetchUserInfo.pending, (state, action) => {
+        builder.addCase(fetchUserInfo.pending, (state) => {
             state.isLoading = true;
         });
     },
