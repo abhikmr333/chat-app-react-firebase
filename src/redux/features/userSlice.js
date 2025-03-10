@@ -13,28 +13,28 @@ export const fetchUserInfo = createAsyncThunk("fetchUserInfo", async (uid) => {
 
 const userSlice = createSlice({
     name: "userSlice",
-    initialState: null,
+    initialState: {
+        isLoading: false,
+        data: null,
+        isError: false,
+    },
     reducers: {
-        // fetchUserInfo: async (state, action) => {
-        //     const { payload: uid } = action;
-        //     //fetching data of loggedin user
-        //     const docRef = doc(db, "users", uid);
-        //     const docSnap = await getDoc(docRef);
-        //     if (docSnap.exists()) {
-        //         console.log(docSnap.data());
-        //     } else {
-        //         console.log("document doesn't exist!");
-        //     }
-        // },
+        deleteUser: (state) => null,
     },
     extraReducers: (builder) => {
         builder.addCase(fetchUserInfo.fulfilled, (state, action) => {
-            return action.payload;
+            state.isLoading = false;
+            state.data = action.payload;
         });
-        builder.addCase(fetchUserInfo.rejected, (state, action) => {});
-        builder.addCase(fetchUserInfo.pending, (state, action) => {});
+        builder.addCase(fetchUserInfo.rejected, (state, action) => {
+            console.log("Error: ", action.payload);
+            state.isError = true;
+        });
+        builder.addCase(fetchUserInfo.pending, (state, action) => {
+            state.isLoading = true;
+        });
     },
 });
 
 export const userReducer = userSlice.reducer;
-//export const { fetchUserInfo } = userSlice.actions;
+export const { deleteUser } = userSlice.actions;

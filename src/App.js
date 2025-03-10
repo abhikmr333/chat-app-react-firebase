@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import { auth } from "./lib/firebase";
 import { useDispatch } from "react-redux";
 import { fetchUserInfo } from "./redux/features/userSlice";
+import { deleteUser } from "./redux/features/userSlice";
 
 const App = () => {
     const path = useLocation().pathname;
@@ -28,6 +29,7 @@ const App = () => {
                 navigate("/chat");
             } else {
                 // User is signed out
+                dispatch(deleteUser());
                 navigate("/");
             }
         });
