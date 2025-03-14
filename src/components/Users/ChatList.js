@@ -27,10 +27,7 @@ const ChatList = () => {
             });
             const chatListData = await Promise.all(promises);
             //sorting based on updatedAt
-            setChats(
-                chatListData,
-                sort((a, b) => b.updatedAt - a.updatedAt)
-            );
+            setChats(chatListData.sort((a, b) => b.updatedAt - a.updatedAt));
         });
 
         return () => unSubscribe();
