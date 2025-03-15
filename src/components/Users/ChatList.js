@@ -13,8 +13,8 @@ const ChatList = () => {
         //attaching a listener so the records are fetched everytime userChats changes
         if (currentUser) {
             const userChatsDocRef = doc(db, "userchats", currentUser.id);
-            const unSubscribe = onSnapshot(userChatsDocRef, async (doc) => {
-                const items = doc.data()?.chats;
+            const unSubscribe = onSnapshot(userChatsDocRef, async (document) => {
+                const items = document.data()?.chats;
                 //now using each item.receiverId fetching the user detail to show their name and avatar
                 const promises = items.map(async (item) => {
                     const usersDocRef = doc(db, "users", item.receiverId);
@@ -31,6 +31,7 @@ const ChatList = () => {
             return () => unSubscribe();
         }
     }, [currentUser?.id]);
+    console.log(chats);
 
     return (
         <section className="overflow-y-auto">
@@ -43,7 +44,7 @@ const ChatList = () => {
                     >
                         <img src={chat.userData.avatar} className="w-[30px]" alt="User Avatar" />
                         <div className="flex-col">
-                            <span>{chat.userData.name}</span>
+                            <span>{chat.userData.username}</span>
                             <p>{chat.lastMessage}</p>
                         </div>
                     </div>

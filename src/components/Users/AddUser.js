@@ -1,24 +1,80 @@
 import { useRef, useState } from "react";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import {
+    collection,
+    query,
+    where,
+    getDocs,
+    updateDoc,
+    setDoc,
+    doc,
+    serverTimestamp,
+    arrayUnion,
+} from "firebase/firestore";
 import { db } from "../../lib/firebase";
+import { useSelector } from "react-redux";
 
 const AddUser = () => {
     //toggleAddUser is different from addUser
     const [toggleAddUser, setToggleAddUser] = useState(false);
     const userRef = useRef("");
     const [user, setUser] = useState(null);
+    const currentUser = useSelector((state) => state.user.currentUser);
+
+    //two users linked to one chat id which will then be used to search the chat messages
+    const createNewChat = async () => {
+        try {
+            //create a new chat and get the chatId as it will be used to link both sender and receiver to the chat doc
+            const chatRef = collection(db, "chats");
+            const newChatRef = doc(chatRef);
+
+            await setDoc(newChatRef, {
+                createdAt: serverTimestamp(),
+                messages: [],
+            });
+            const { id: chatId } = newChatRef;
+            //updating receiver's userChat doc
+            await updateDoc(doc(db, "userchats", user.id), {
+                chats: arrayUnion({
+                    chatId,
+                    reciverId: currentUser.id,
+                    lastMessage: "",
+                    updatedAt: Date.now(),
+                    isSeen: false,
+                }),
+            });
+
+            //updating currentUser's(sender's) userChat doc
+            await updateDoc(doc(db, "userchats", currentUser.id), {
+                chats: arrayUnion({
+                    chatId,
+                    receiverId: user.id,
+                    lastMessage: "",
+                    updatedAt: Date.now(),
+                    isSeen: false,
+                }),
+            });
+        } catch (err) {
+            console.log(err.message);
+        }
+    };
 
     const searchUser = async () => {
         if (user === "") setUser(null);
         const { value: username } = userRef.current;
-        //create a query
-        const userQuery = query(collection(db, "users"), where("username", "==", username));
-        //execute a query using getDocs
-        const result = await getDocs(userQuery);
-        const userData = result?.docs?.[0]?.data();
-        userData ? setUser(userData) : setUser("");
+        try {
+            //create a query
+            const userQuery = query(collection(db, "users"), where("username", "==", username));
+            //execute a query using getDocs
+            const querySnapshot = await getDocs(userQuery);
+            if (!querySnapshot.empty) {
+                const userData = querySnapshot?.docs?.[0]?.data();
+                setUser(userData);
+            } else setUser("");
+        } catch (err) {
+            console.log(err.message);
+        }
     };
-
+    console.log(user);
     return (
         <>
             <button
@@ -50,7 +106,12 @@ const AddUser = () => {
                                     <img className="w-8 h-8" src={user.avatar} alt="" />
                                     <span>{user.username}</span>
                                 </div>
-                                <button className="bg-green-300 h-6 text-l rounded-md">Add</button>
+                                <button
+                                    className="bg-green-300 h-6 text-l rounded-md"
+                                    onClick={createNewChat}
+                                >
+                                    Add
+                                </button>
                             </div>
                         ))}
                 </div>
