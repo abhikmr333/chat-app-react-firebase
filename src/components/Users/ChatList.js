@@ -4,10 +4,13 @@ import { useEffect, useState } from "react";
 import { onSnapshot, doc, getDoc } from "firebase/firestore";
 import { db } from "../../lib/firebase";
 import AddUser from "./AddUser";
+import { useSelector, useDispatch } from "react-redux";
+import { changeChatView } from "../../redux/features/chatSlice";
 
 const ChatList = () => {
     const currentUser = useSelector((state) => state.user.currentUser);
     const [chats, setChats] = useState([]);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         //attaching a listener so the records are fetched everytime userChats changes
@@ -31,7 +34,10 @@ const ChatList = () => {
             return () => unSubscribe();
         }
     }, [currentUser?.id]);
-    console.log(chats);
+
+    const handleSelectedChat = (chat) => {
+        dispatch(changeChatView({ ...chat, currentUser }));
+    };
 
     return (
         <section className="overflow-y-auto">
@@ -41,6 +47,7 @@ const ChatList = () => {
                     <div
                         className="flex items-center gap-5 p-5 cursor-pointer border-b-black border-b-1"
                         key={chat.chatId}
+                        onClick={() => handleSelectedChat(chat)}
                     >
                         <img src={chat.userData.avatar} className="w-[30px]" alt="User Avatar" />
                         <div className="flex-col">

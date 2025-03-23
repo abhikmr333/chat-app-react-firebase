@@ -2,7 +2,7 @@ import userAvatar from "/userAvatar.png";
 
 const ChatHeader = () => {
     return (
-        <section className="flex p-5 justify-between border-b-1">
+        <header className="flex p-5 justify-between border-b-1">
             <div className="flex items-center gap-5 cursor-pointer">
                 <img src={userAvatar} className="w-[30px]" alt="User Avatar" />
                 <div className="flex-col">
@@ -13,7 +13,7 @@ const ChatHeader = () => {
             <div>
                 <button className="bg-blue-600 text-white">Info</button>
             </div>
-        </section>
+        </header>
     );
 };
 export default ChatHeader;

@@ -74,7 +74,7 @@ const AddUser = () => {
             console.log(err.message);
         }
     };
-    console.log(user);
+
     return (
         <>
             <button
