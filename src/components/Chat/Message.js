@@ -1,42 +1,45 @@
-import { useRef } from "react";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
+import { doc, onSnapshot } from "firebase/firestore";
+import { db } from "../../lib/firebase";
 
 const Message = () => {
     const endRef = useRef(null);
+    const chatIdOfCurrentConversation = useSelector(
+        (store) => store.chat.chatIdOfCurrentConversation
+    );
+    const currentUser = useSelector((store) => store.user.currentUser);
+    const [chat, setChat] = useState(null);
+
     useEffect(() => {
         endRef.current?.scrollIntoView({ behavior: "smooth" });
     }, []);
 
+    //for fetching messages
+    useEffect(() => {
+        if (chatIdOfCurrentConversation) {
+            const chatMessagesRef = doc(db, "chats", chatIdOfCurrentConversation);
+            const unSubscribe = onSnapshot(chatMessagesRef, async (document) => {
+                setChat(document.data());
+            });
+            return () => unSubscribe();
+        }
+    }, [chatIdOfCurrentConversation]);
+
     return (
         <>
-            <div className=" ml-auto w-72 bg-gray-300 m-1 rounded-md p-1">
-                <p className="">
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consequatur molestias
-                    quae nisi dolorum. Aliquid veniam incidunt labore natus commodi laborum, nihil
-                    eaque maiores atque harum laudantium dignissimos at et recusandae!
-                </p>
-            </div>
-            <div className="w-72 bg-gray-300 m-1 rounded-md p-1">
-                <p className="">
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consequatur molestias
-                    quae nisi dolorum. Aliquid veniam incidunt labore natus commodi laborum, nihil
-                    eaque maiores atque harum laudantium dignissimos at et recusandae!
-                </p>
-            </div>
-            <div className="ml-auto w-72 bg-gray-300 m-1 rounded-md p-1">
-                <p className="">
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consequatur molestias
-                    quae nisi dolorum. Aliquid veniam incidunt labore natus commodi laborum, nihil
-                    eaque maiores atque harum laudantium dignissimos at et recusandae!
-                </p>
-            </div>
-            <div className="w-72 bg-gray-300 m-1 rounded-md p-1">
-                <p className="">
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consequatur molestias
-                    quae nisi dolorum. Aliquid veniam incidunt labore natus commodi laborum, nihil
-                    eaque maiores atque harum laudantium dignissimos at et recusandae!
-                </p>
-            </div>
+            {chat &&
+                chat.messages.map((message) => (
+                    <div
+                        className={
+                            (message.senderId === currentUser.id ? "ml-auto" : "mr-auto") +
+                            " w-72 bg-gray-300 m-1 rounded-md p-1"
+                        }
+                        key={message.createdAt}
+                    >
+                        <p className="">{message.text}</p>
+                    </div>
+                ))}
             {/* To Scroll towards the end of chat box */}
             <div ref={endRef}></div>
         </>
