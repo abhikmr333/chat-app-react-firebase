@@ -28,8 +28,7 @@ const Message = () => {
 
     return (
         <>
-            {currentUser &&
-                chat &&
+            {chat &&
                 chat.messages.map((message) => (
                     <div
                         className={

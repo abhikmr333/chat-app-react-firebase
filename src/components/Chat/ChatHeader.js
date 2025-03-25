@@ -1,6 +1,9 @@
 import userAvatar from "/userAvatar.png";
+import { useSelector } from "react-redux";
 
 const ChatHeader = () => {
+    const currentReceiver = useSelector((store) => store.chat.user);
+
     return (
         <header className="flex p-5 justify-between border-b-1">
             <div className="flex items-center gap-5 cursor-pointer">
