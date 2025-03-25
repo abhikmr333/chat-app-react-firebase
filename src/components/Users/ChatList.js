@@ -20,6 +20,7 @@ const ChatList = () => {
                 const items = document.data()?.chats;
                 //now using each item.receiverId fetching the user detail to show their name and avatar
                 const promises = items.map(async (item) => {
+                    console.log(item);
                     const usersDocRef = doc(db, "users", item.receiverId);
                     const usersDocSnap = await getDoc(usersDocRef);
                     const userData = usersDocSnap.exists() ? usersDocSnap.data() : null;
