@@ -35,8 +35,15 @@ const chatSlice = createSlice({
                 state.isUserBlocked = false;
             }
         },
+        //reset/delete whenver user logouts
+        removeCurrentReceiver: (state) => {
+            state.chatIdOfCurrentConversation = null;
+            state.user = null;
+            state.isCurrentUserBlocked = false;
+            state.isUserBlocked = false;
+        },
     },
 });
 
-export const { changeChatView } = chatSlice.actions;
+export const { changeChatView, removeCurrentReceiver } = chatSlice.actions;
 export const chatReducer = chatSlice.reducer;

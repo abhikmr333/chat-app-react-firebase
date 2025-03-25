@@ -4,13 +4,17 @@ import arrowDown from "/arrowDown.png";
 import { useState } from "react";
 import { auth } from "../../lib/firebase";
 import { signOut } from "firebase/auth";
+import { removeCurrentReceiver } from "../../redux/features/chatSlice";
+import { useDispatch } from "react-redux";
 
 const Detail = () => {
     const [viewMenuNumber, setViewMenuNumber] = useState(null);
+    const dispatch = useDispatch();
 
     const logOut = async () => {
         try {
             await signOut(auth);
+            dispatch(removeCurrentReceiver());
         } catch (err) {
             console.log("Error Logging Out");
         }
