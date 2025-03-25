@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../../lib/firebase";
+import Loading from "../loading";
 
 const Message = () => {
     const endRef = useRef(null);
@@ -28,7 +29,7 @@ const Message = () => {
 
     return (
         <>
-            {chat &&
+            {chat && currentUser ? (
                 chat.messages.map((message) => (
                     <div
                         className={
@@ -39,7 +40,10 @@ const Message = () => {
                     >
                         <p className="">{message.text}</p>
                     </div>
-                ))}
+                ))
+            ) : (
+                <Loading />
+            )}
             {/* To Scroll towards the end of chat box */}
             <div ref={endRef}></div>
         </>
