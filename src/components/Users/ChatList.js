@@ -46,7 +46,9 @@ const ChatList = () => {
             <div>
                 {chats.map((chat) => (
                     <div
-                        className="flex items-center gap-5 p-5 cursor-pointer border-b-black border-b-1"
+                        className={`${
+                            chat.isSeen ? "bg-white" : "bg-green-300"
+                        } flex items-center gap-5 p-5 cursor-pointer border-b-black border-b-1`}
                         key={chat.chatId}
                         onClick={() => handleSelectedChat(chat)}
                     >

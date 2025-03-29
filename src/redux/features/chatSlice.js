@@ -21,7 +21,7 @@ const chatSlice = createSlice({
                 state.isUserBlocked = true;
             }
             //user has blocked current user
-            else if (userData.blockList.includes(userData.id)) {
+            else if (userData.blockList.includes(currentUser.id)) {
                 state.chatIdOfCurrentConversation = chatId;
                 state.user = null;
                 state.isCurrentUserBlocked = true;
@@ -35,7 +35,7 @@ const chatSlice = createSlice({
                 state.isUserBlocked = false;
             }
         },
-        //reset/delete whenver user logouts
+        //reset/delete whenever user logouts
         removeCurrentReceiver: (state) => {
             state.chatIdOfCurrentConversation = null;
             state.user = null;
