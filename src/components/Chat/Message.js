@@ -33,8 +33,9 @@ const Message = () => {
                 chat.messages.map((message) => (
                     <div
                         className={
-                            (message.senderId === currentUser.id ? "ml-auto" : "mr-auto") +
-                            " w-72 bg-gray-300 m-1 rounded-md p-1"
+                            (message.senderId === currentUser.id
+                                ? "ml-auto bg-gray-300"
+                                : "mr-auto bg-blue-400") + " w-72  m-1 rounded-md p-1"
                         }
                         key={message.createdAt}
                     >
