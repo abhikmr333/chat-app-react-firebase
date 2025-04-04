@@ -31,7 +31,7 @@ const userSlice = createSlice({
             state.currentUser = action.payload;
         });
         builder.addCase(fetchUserInfo.rejected, (state, action) => {
-            console.log("Error: ", action.payload);
+            console.log("Error: ", action);
             state.isError = true;
         });
         builder.addCase(fetchUserInfo.pending, (state) => {

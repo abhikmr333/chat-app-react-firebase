@@ -1,10 +1,13 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { updateDoc, doc, getDoc, arrayUnion } from "firebase/firestore";
 import { useSelector } from "react-redux";
 import { db } from "../../lib/firebase";
+import { CLOUDINARY_API_URL } from "../../utils/constants";
 
 const ChatFooter = () => {
     const textRef = useRef("");
+    const [imageFile, setImageFile] = useState(null);
+
     const chatIdOfCurrentConversation = useSelector(
         (store) => store.chat.chatIdOfCurrentConversation
     );
@@ -13,18 +16,43 @@ const ChatFooter = () => {
     //receiver
     const user = useSelector((store) => store.chat.user);
 
+    const uploadToCloudinary = async () => {
+        //fetch request with appropriate preset
+        try {
+            const formData = new FormData();
+            formData.append("file", imageFile);
+            formData.append("upload_preset", "preset_chat_images");
+
+            const response = await fetch(CLOUDINARY_API_URL, {
+                method: "POST",
+                body: formData,
+            });
+            if (!response.ok) throw new Error("Something went wrong!");
+            const result = await response.json();
+            return result.secure_url;
+        } catch (err) {
+            console.log(err.message);
+        }
+    };
+
     const handleSend = async () => {
         const { value: text } = textRef.current;
-        if (text === "") return;
+        //when text input is empty or no image file is selected
+        if (text === "" && !imageFile) return;
         if (!chatIdOfCurrentConversation || !currentUser) return;
         try {
+            let imageUrl = "";
+            //uploading image if there's any to cloudinary and getting the url
+            if (imageFile) {
+                imageUrl = await uploadToCloudinary();
+            }
             //create a message in a corresponding chatId
             const chatRef = doc(db, "chats", chatIdOfCurrentConversation);
             await updateDoc(chatRef, {
                 messages: arrayUnion({
                     senderId: currentUser.id,
                     text,
-                    image: "",
+                    image: imageUrl,
                     createdAt: new Date(),
                 }),
             });
@@ -41,7 +69,7 @@ const ChatFooter = () => {
                     const chatAtIndex = userChatsData.chats.findIndex(
                         (chat) => chat.chatId === chatIdOfCurrentConversation
                     );
-                    userChatsData.chats[chatAtIndex].lastMessage = text;
+                    userChatsData.chats[chatAtIndex].lastMessage = text ? text : imageFile.name;
                     userChatsData.chats[chatAtIndex].isSeen = id === currentUser.id ? true : false;
                     userChatsData.chats.updatedAt = Date.now();
                     //merge the updated userChatsData.chats array
@@ -50,20 +78,40 @@ const ChatFooter = () => {
                     });
                 }
             });
+            if (imageFile) setImageFile(null);
         } catch (err) {
             console.log(err.message);
         }
     };
 
+    const handleFileChange = (event) => {
+        const { files } = event.target;
+        const imgFile = files[0];
+        setImageFile(imgFile);
+    };
+
+    console.log(imageFile);
+
     return (
         <footer className="flex justify-between border-1 p-5 items-center mt-auto">
-            <button className="bg-blue-500 text-white">Images</button>
+            <label htmlFor="image">
+                <div className="bg-blue-500 text-white">image</div>
+            </label>
+            <input
+                type="file"
+                id="image"
+                accept="image/png, image/jpeg"
+                class="hidden"
+                onChange={handleFileChange}
+            />
+
             <input
                 className="w-96 text-black border-1"
                 type="text"
                 placeholder="Type Message..."
                 ref={textRef}
             />
+
             <div>
                 <button className="bg-blue-500 text-white mr-4">Emoji</button>
                 <button className="bg-blue-500 text-white" onClick={handleSend}>
