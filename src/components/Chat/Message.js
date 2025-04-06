@@ -39,7 +39,20 @@ const Message = () => {
                         }
                         key={message.createdAt}
                     >
-                        <p className="">{message.text}</p>
+                        {message.image ? (
+                            message.text ? (
+                                <div className="flex flex-col">
+                                    <img src={message.image} alt="image" />
+                                    <p>{message.text}</p>
+                                </div>
+                            ) : (
+                                <div className="flex flex-col">
+                                    <img src={message.image} alt="image" />
+                                </div>
+                            )
+                        ) : (
+                            <p className="">{message.text}</p>
+                        )}
                     </div>
                 ))
             ) : (

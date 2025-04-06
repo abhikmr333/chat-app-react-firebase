@@ -90,8 +90,6 @@ const ChatFooter = () => {
         setImageFile(imgFile);
     };
 
-    console.log(imageFile);
-
     return (
         <footer className="flex justify-between border-1 p-5 items-center mt-auto">
             <label htmlFor="image">
