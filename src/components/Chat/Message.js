@@ -20,7 +20,7 @@ const Message = () => {
     useEffect(() => {
         if (chatIdOfCurrentConversation) {
             const chatMessagesRef = doc(db, "chats", chatIdOfCurrentConversation);
-            const unSubscribe = onSnapshot(chatMessagesRef, async (document) => {
+            const unSubscribe = onSnapshot(chatMessagesRef, (document) => {
                 setChat(document.data());
             });
             return () => unSubscribe();

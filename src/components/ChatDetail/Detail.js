@@ -6,6 +6,7 @@ import { auth } from "../../lib/firebase";
 import { signOut } from "firebase/auth";
 import { removeCurrentReceiver } from "../../redux/features/chatSlice";
 import { useDispatch } from "react-redux";
+import SharedImages from "./SharedImages";
 
 const Detail = () => {
     const [viewMenuNumber, setViewMenuNumber] = useState(null);
@@ -34,8 +35,8 @@ const Detail = () => {
     ];
 
     return (
-        <section className="flex flex-col text-white p-5">
-            {menus.map((menu) => {
+        <section className="flex flex-col items-center text-white p-5">
+            {/* {menus.map((menu) => {
                 return (
                     <button
                         key={menu.label}
@@ -51,12 +52,14 @@ const Detail = () => {
                         />
                     </button>
                 );
-            })}
-            <button className="flex justify-between items-center bg-blue-400 p-2 m-4 rounded-md">
+            })} */}
+            {/* Shared Images section */}
+            <SharedImages />
+            <button className="flex justify-center items-center bg-blue-400 p-2 m-4 rounded-md w-72">
                 Block User
             </button>
             <button
-                className="flex justify-between items-center bg-red-400 p-2 m-4 rounded-md"
+                className="flex justify-center items-center bg-red-400 p-2 m-4 rounded-md w-72"
                 onClick={logOut}
             >
                 Logout
