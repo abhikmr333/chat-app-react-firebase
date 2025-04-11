@@ -7,7 +7,7 @@ const chatSlice = createSlice({
         chatIdOfCurrentConversation: null,
         user: null,
         isCurrentUserBlocked: false,
-        isUserBlocked: false,
+        isReceiverBlocked: false,
     },
     reducers: {
         //chat-view will change everytime a different user gets clicked
@@ -18,21 +18,21 @@ const chatSlice = createSlice({
                 state.chatIdOfCurrentConversation = chatId;
                 state.user = null;
                 state.isCurrentUserBlocked = false;
-                state.isUserBlocked = true;
+                state.isReceiverBlocked = true;
             }
             //user has blocked current user
             else if (userData.blockList.includes(currentUser.id)) {
                 state.chatIdOfCurrentConversation = chatId;
                 state.user = null;
                 state.isCurrentUserBlocked = true;
-                state.isUserBlocked = false;
+                state.isReceiverBlocked = false;
             }
             //no one is blocked
             else {
                 state.chatIdOfCurrentConversation = chatId;
                 state.user = userData;
                 state.isCurrentUserBlocked = false;
-                state.isUserBlocked = false;
+                state.isReceiverBlocked = false;
             }
         },
         //reset/delete whenever user logouts
@@ -40,7 +40,11 @@ const chatSlice = createSlice({
             state.chatIdOfCurrentConversation = null;
             state.user = null;
             state.isCurrentUserBlocked = false;
-            state.isUserBlocked = false;
+            state.isReceiverBlocked = false;
+        },
+        //if current user blocks someone
+        changeBlock: (state) => {
+            return { ...state, isReceiverBlocked: true };
         },
     },
 });
