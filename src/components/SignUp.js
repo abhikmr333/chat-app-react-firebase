@@ -3,7 +3,7 @@ import validateForm from "../utils/validate";
 import { auth, db } from "../lib/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
-import userAvatar from "/userAvatar.png";
+import { DEFAULT_USER_AVATAR } from "../utils/constants";
 import { CLOUDINARY_API_URL } from "../utils/constants";
 
 const SignUp = () => {
@@ -11,9 +11,7 @@ const SignUp = () => {
     const [emailAddress, setEmailAddress] = useState("");
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState(null);
-    const [profilePic, setProfilePic] = useState(
-        "https://img.icons8.com/fluency-systems-filled/96/user.png"
-    );
+    const [profilePic, setProfilePic] = useState(DEFAULT_USER_AVATAR);
 
     const uploadImageToCloudinary = async (event) => {
         setErrorMessage(null);
@@ -103,7 +101,7 @@ const SignUp = () => {
                         <div className="flex flex-col justify-center items-center">
                             <img
                                 className="h-22 w-22"
-                                src={profilePic ? profilePic : userAvatar}
+                                src={profilePic ? profilePic : DEFAULT_USER_AVATAR}
                                 alt="user avatar"
                             />
                             <input
