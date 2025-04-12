@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
 import { db } from "../../lib/firebase";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
@@ -10,6 +10,17 @@ export const fetchUserInfo = createAsyncThunk("fetchUserInfo", async (uid) => {
     const docSnap = await getDoc(docRef);
     return docSnap.exists() ? docSnap.data() : null;
 });
+//Blocking user updating firebase(return recieverId to update blocklist in state manually)
+export const blockReceiver = createAsyncThunk(
+    "blockReceiver",
+    async ({ currentUserId, receiverId }) => {
+        const docRef = doc(db, "users", currentUserId);
+        await updateDoc(docRef, {
+            blockList: arrayUnion(receiverId),
+        });
+        return receiverId;
+    }
+);
 
 const userSlice = createSlice({
     name: "userSlice",
@@ -24,12 +35,9 @@ const userSlice = createSlice({
             state.isLoading = false;
             state.isError = false;
         },
-        blockReceiver: (state, action) => {
-            const recieverId = action.payload;
-            state.currentUser.blockList.push(recieverId);
-        },
     },
     extraReducers: (builder) => {
+        //fetchUserInfo
         builder.addCase(fetchUserInfo.fulfilled, (state, action) => {
             state.isLoading = false;
             state.currentUser = action.payload;
@@ -40,6 +48,12 @@ const userSlice = createSlice({
         });
         builder.addCase(fetchUserInfo.pending, (state) => {
             state.isLoading = true;
+        });
+
+        //blockReceiver
+        builder.addCase(blockReceiver.fulfilled, (state, action) => {
+            const receiverId = action.payload;
+            state.currentUser.blockList.push(receiverId);
         });
     },
 });

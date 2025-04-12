@@ -43,7 +43,7 @@ const chatSlice = createSlice({
         },
         //if current user blocks someone
         changeBlock: (state) => {
-            return { ...state, isReceiverBlocked: !isReceiverBlocked };
+            return { ...state, isReceiverBlocked: !state.isReceiverBlocked };
         },
     },
 });

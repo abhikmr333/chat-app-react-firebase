@@ -7,14 +7,13 @@ import { CLOUDINARY_API_URL } from "../../utils/constants";
 const ChatFooter = () => {
     const textRef = useRef("");
     const [imageFile, setImageFile] = useState(null);
-
     const chatIdOfCurrentConversation = useSelector(
         (store) => store.chat.chatIdOfCurrentConversation
     );
     //sender
     const currentUser = useSelector((store) => store.user.currentUser);
     //receiver
-    const user = useSelector((store) => store.chat.user);
+    const { user, isReceiverBlocked, isCurrentUserBlocked } = useSelector((store) => store.chat);
 
     const uploadToCloudinary = async () => {
         //fetch request with appropriate preset
@@ -91,7 +90,14 @@ const ChatFooter = () => {
     };
 
     return (
-        <footer className="flex justify-between border-1 p-5 items-center mt-auto">
+        <footer
+            className={
+                "flex justify-between border-1 p-5 items-center mt-auto " + isReceiverBlocked ||
+                isCurrentUserBlocked
+                    ? "cursor-not-allowed"
+                    : "cursor-pointer"
+            }
+        >
             <label htmlFor="image">
                 <div className="bg-blue-500 text-white">image</div>
             </label>
@@ -101,6 +107,7 @@ const ChatFooter = () => {
                 accept="image/png, image/jpeg"
                 class="hidden"
                 onChange={handleFileChange}
+                disabled={isReceiverBlocked || isCurrentUserBlocked}
             />
 
             <input
@@ -108,11 +115,21 @@ const ChatFooter = () => {
                 type="text"
                 placeholder="Type Message..."
                 ref={textRef}
+                disabled={isReceiverBlocked || isCurrentUserBlocked}
             />
 
             <div>
-                <button className="bg-blue-500 text-white mr-4">Emoji</button>
-                <button className="bg-blue-500 text-white" onClick={handleSend}>
+                <button
+                    className="bg-blue-500 text-white mr-4"
+                    disabled={isReceiverBlocked || isCurrentUserBlocked}
+                >
+                    Emoji
+                </button>
+                <button
+                    className="bg-blue-500 text-white"
+                    disabled={isReceiverBlocked || isCurrentUserBlocked}
+                    onClick={handleSend}
+                >
                     Send
                 </button>
             </div>

@@ -9,11 +9,25 @@ import { useDispatch } from "react-redux";
 import SharedImages from "./SharedImages";
 import { useSelector } from "react-redux";
 import { changeBlock } from "../../redux/features/chatSlice";
+import { blockReceiver } from "../../redux/features/userSlice";
 
 const Detail = () => {
     const [viewMenuNumber, setViewMenuNumber] = useState(null);
     const dispatch = useDispatch();
-    const { isReceiverBlocked, isCurrentUserBlocked } = useSelector((store) => store.chat);
+    const { user, isReceiverBlocked, isCurrentUserBlocked } = useSelector((store) => store.chat);
+    const currentUser = useSelector((store) => store.user.currentUser);
+    const receiverId = user?.id;
+    const currentUserId = currentUser?.id;
+
+    const handleBlock = () => {
+        if (!user) return;
+
+        //updating firebase data, unblock if blocked and block if unblocked (like switching) also updating state manually using createAsyncThunk;
+        dispatch(blockReceiver({ currentUserId, receiverId }));
+
+        //update/flip chatSlice->isReceiverBlocked
+        dispatch(changeBlock());
+    };
 
     const logOut = async () => {
         try {
@@ -36,7 +50,7 @@ const Detail = () => {
         { name: "2", label: "Privacy & Help" },
         { name: "3", label: "Chat Settings" },
     ];
-
+    console.log(receiverId);
     return (
         <section className="flex flex-col items-center text-white p-5">
             {/* {menus.map((menu) => {
@@ -58,8 +72,11 @@ const Detail = () => {
             })} */}
             {/* Shared Images section */}
             <SharedImages />
-            <button className="flex justify-center items-center bg-blue-400 p-2 m-4 rounded-md w-72">
-                Block User
+            <button
+                className="flex justify-center items-center bg-blue-400 p-2 m-4 rounded-md w-72"
+                onClick={handleBlock}
+            >
+                {isCurrentUserBlocked ? "You're Blocked" : isReceiverBlocked ? "Unblock" : "Block"}
             </button>
             <button
                 className="flex justify-center items-center bg-red-400 p-2 m-4 rounded-md w-72"

@@ -29,8 +29,8 @@ const SharedImages = () => {
             <div className="overflow-auto">
                 {images &&
                     images.map((image, index) => (
-                        <div className="flex border-1 border-black">
-                            <img className="w-10 h-10" key={image} src={image} alt={image} />
+                        <div className="flex border-1 border-black" key={image}>
+                            <img className="w-10 h-10" src={image} alt={image} />
                             <p className="text-black">{"Photo " + (index + 1)}</p>
                         </div>
                     ))}
