@@ -7,10 +7,13 @@ import { signOut } from "firebase/auth";
 import { removeCurrentReceiver } from "../../redux/features/chatSlice";
 import { useDispatch } from "react-redux";
 import SharedImages from "./SharedImages";
+import { useSelector } from "react-redux";
+import { changeBlock } from "../../redux/features/chatSlice";
 
 const Detail = () => {
     const [viewMenuNumber, setViewMenuNumber] = useState(null);
     const dispatch = useDispatch();
+    const { isReceiverBlocked, isCurrentUserBlocked } = useSelector((store) => store.chat);
 
     const logOut = async () => {
         try {

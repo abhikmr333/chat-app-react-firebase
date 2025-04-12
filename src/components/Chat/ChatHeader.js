@@ -1,5 +1,5 @@
-import userAvatar from "/userAvatar.png";
 import { useSelector } from "react-redux";
+import { BLOCKED_USER_AVATAR } from "../../utils/constants";
 
 const ChatHeader = () => {
     const currentReceiver = useSelector((store) => store.chat.user);
@@ -8,9 +8,13 @@ const ChatHeader = () => {
         currentReceiver && (
             <header className="flex p-5 justify-between border-b-1">
                 <div className="flex items-center gap-5 cursor-pointer">
-                    <img src={currentReceiver.avatar} className="w-[30px]" alt="User Avatar" />
+                    <img
+                        src={currentReceiver?.avatar || BLOCKED_USER_AVATAR}
+                        className="w-[30px]"
+                        alt="User Avatar"
+                    />
                     <div>
-                        <span>{currentReceiver.username}</span>
+                        <span>{currentReceiver?.username}</span>
                         <p>hello....</p>
                     </div>
                 </div>
