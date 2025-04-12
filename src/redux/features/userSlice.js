@@ -24,6 +24,10 @@ const userSlice = createSlice({
             state.isLoading = false;
             state.isError = false;
         },
+        blockReceiver: (state, action) => {
+            const recieverId = action.payload;
+            state.currentUser.blockList.push(recieverId);
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(fetchUserInfo.fulfilled, (state, action) => {

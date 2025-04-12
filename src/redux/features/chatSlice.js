@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { useSelector } from "react-redux";
 
 const chatSlice = createSlice({
     name: "chatSlice",
@@ -16,14 +15,14 @@ const chatSlice = createSlice({
             //current-user has blocked the user(the one you clicked on)
             if (currentUser.blockList.includes(userData.id)) {
                 state.chatIdOfCurrentConversation = chatId;
-                state.user = null;
+                state.user = userData;
                 state.isCurrentUserBlocked = false;
                 state.isReceiverBlocked = true;
             }
             //user has blocked current user
             else if (userData.blockList.includes(currentUser.id)) {
                 state.chatIdOfCurrentConversation = chatId;
-                state.user = null;
+                state.user = userData;
                 state.isCurrentUserBlocked = true;
                 state.isReceiverBlocked = false;
             }
@@ -44,10 +43,10 @@ const chatSlice = createSlice({
         },
         //if current user blocks someone
         changeBlock: (state) => {
-            return { ...state, isReceiverBlocked: true };
+            return { ...state, isReceiverBlocked: !isReceiverBlocked };
         },
     },
 });
 
-export const { changeChatView, removeCurrentReceiver } = chatSlice.actions;
+export const { changeChatView, removeCurrentReceiver, changeBlock } = chatSlice.actions;
 export const chatReducer = chatSlice.reducer;
