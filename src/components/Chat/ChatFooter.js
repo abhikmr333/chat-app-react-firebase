@@ -92,10 +92,10 @@ const ChatFooter = () => {
     return (
         <footer
             className={
-                "flex justify-between border-1 p-5 items-center mt-auto " + isReceiverBlocked ||
-                isCurrentUserBlocked
-                    ? "cursor-not-allowed"
-                    : "cursor-pointer"
+                "flex justify-between border-1 p-5 items-center mt-auto" +
+                (isReceiverBlocked || isCurrentUserBlocked
+                    ? " cursor-not-allowed"
+                    : " cursor-pointer")
             }
         >
             <label htmlFor="image">
