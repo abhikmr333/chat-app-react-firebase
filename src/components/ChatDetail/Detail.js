@@ -76,7 +76,13 @@ const Detail = () => {
             {/* Shared Images section */}
             <SharedImages />
             <button
-                className="flex justify-center items-center bg-blue-400 p-2 m-4 rounded-md w-72"
+                className={`flex justify-center items-center ${
+                    isCurrentUserBlocked
+                        ? "bg-black"
+                        : isReceiverBlocked
+                        ? "bg-blue-400"
+                        : "bg-red-400"
+                } p-2 m-4 rounded-md w-72`}
                 onClick={handleBlock}
             >
                 {isCurrentUserBlocked ? "You're Blocked" : isReceiverBlocked ? "Unblock" : "Block"}
