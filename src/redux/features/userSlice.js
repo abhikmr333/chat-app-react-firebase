@@ -1,5 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { doc, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
+import { createSlice, current } from "@reduxjs/toolkit";
+import { doc, getDoc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
 import { db } from "../../lib/firebase";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
@@ -17,6 +17,17 @@ export const blockReceiver = createAsyncThunk(
         const docRef = doc(db, "users", currentUserId);
         await updateDoc(docRef, {
             blockList: arrayUnion(receiverId),
+        });
+        return receiverId;
+    }
+);
+//unblocking user updating firebase(return recieverId to update blocklist in state manually)
+export const unblockReceiver = createAsyncThunk(
+    "unblockReceiver",
+    async ({ currentUserId, receiverId }) => {
+        const docRef = doc(db, "users", currentUserId);
+        await updateDoc(docRef, {
+            blockList: arrayRemove(receiverId),
         });
         return receiverId;
     }
@@ -54,6 +65,12 @@ const userSlice = createSlice({
         builder.addCase(blockReceiver.fulfilled, (state, action) => {
             const receiverId = action.payload;
             state.currentUser.blockList.push(receiverId);
+        });
+        //unblockReceiver
+        builder.addCase(unblockReceiver.fulfilled, (state, action) => {
+            const blockList = state.currentUser.blockList;
+            const receiverId = action.payload;
+            state.currentUser.blockList = blockList.filter((userId) => userId !== receiverId);
         });
     },
 });

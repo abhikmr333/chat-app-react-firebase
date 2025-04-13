@@ -9,7 +9,7 @@ import { useDispatch } from "react-redux";
 import SharedImages from "./SharedImages";
 import { useSelector } from "react-redux";
 import { changeBlock } from "../../redux/features/chatSlice";
-import { blockReceiver } from "../../redux/features/userSlice";
+import { blockReceiver, unblockReceiver } from "../../redux/features/userSlice";
 
 const Detail = () => {
     const [viewMenuNumber, setViewMenuNumber] = useState(null);
@@ -21,9 +21,12 @@ const Detail = () => {
 
     const handleBlock = () => {
         if (!user) return;
+        if (isCurrentUserBlocked) return;
 
         //updating firebase data, unblock if blocked and block if unblocked (like switching) also updating state manually using createAsyncThunk;
-        dispatch(blockReceiver({ currentUserId, receiverId }));
+        isReceiverBlocked
+            ? dispatch(unblockReceiver({ currentUserId, receiverId }))
+            : dispatch(blockReceiver({ currentUserId, receiverId }));
 
         //update/flip chatSlice->isReceiverBlocked
         dispatch(changeBlock());
