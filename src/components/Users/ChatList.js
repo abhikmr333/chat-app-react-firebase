@@ -6,11 +6,11 @@ import { db } from "../../lib/firebase";
 import AddUser from "./AddUser";
 import { useSelector, useDispatch } from "react-redux";
 import { changeChatView } from "../../redux/features/chatSlice";
-import { findNonSerializableValue } from "@reduxjs/toolkit";
 
 const ChatList = () => {
     const currentUser = useSelector((state) => state.user.currentUser);
     const [chats, setChats] = useState([]);
+    const [filterInput, setFilterInput] = useState("");
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -35,6 +35,11 @@ const ChatList = () => {
             return () => unSubscribe();
         }
     }, [currentUser?.id]);
+
+    //filter chats everytime the search input changes
+    const filteredChats = chats.filter((chat) =>
+        chat.userData.username.toLowerCase().includes(filterInput.toLowerCase())
+    );
 
     const handleSelectedChat = async (chat) => {
         //changing isSeen when the currentUser clicks on the new message
@@ -62,8 +67,18 @@ const ChatList = () => {
     return (
         <section className="overflow-y-auto">
             <AddUser />
+            {/* filter users */}
             <div>
-                {chats.map((chat) => (
+                <input
+                    className="border w-64 m-1 "
+                    placeholder="Search Chats"
+                    type="text"
+                    value={filterInput}
+                    onChange={(e) => setFilterInput(e.target.value)}
+                />
+            </div>
+            <div>
+                {filteredChats.map((chat) => (
                     <div
                         className={`${
                             chat.isSeen ? "bg-white" : "bg-green-300"

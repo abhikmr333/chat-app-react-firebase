@@ -53,7 +53,7 @@ const Detail = () => {
         { name: "2", label: "Privacy & Help" },
         { name: "3", label: "Chat Settings" },
     ];
-    console.log(receiverId);
+
     return (
         <section className="flex flex-col items-center text-white p-5">
             {/* {menus.map((menu) => {
