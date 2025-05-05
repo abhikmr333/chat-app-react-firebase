@@ -38,10 +38,10 @@ const App = () => {
     }, []);
 
     return (
-        <>
+        <div className="flex flex-col h-screen">
             {path !== "/chat" && <Header />}
             <Outlet />
-        </>
+        </div>
     );
 };
 
