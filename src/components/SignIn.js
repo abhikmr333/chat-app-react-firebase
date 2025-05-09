@@ -3,11 +3,13 @@ import validateForm from "../utils/validate";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../lib/firebase";
 import { Link } from "react-router";
+import { useSelector } from "react-redux";
 
 const SignIn = () => {
     const [emailAddress, setEmailAddress] = useState("");
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState(null);
+    const currentTheme = useSelector((store) => store.theme.currentTheme);
 
     const handleEmailAddress = (event) => {
         if (errorMessage) setErrorMessage(null);
@@ -39,9 +41,19 @@ const SignIn = () => {
 
     return (
         <>
-            <div className="flex flex-1 flex-col justify-center px-6 py-12 lg:px-8 bg-[#f9f5d7]">
+            <div
+                className={
+                    "flex flex-1 flex-col justify-center px-6 py-12 lg:px-8 " +
+                    (currentTheme === "light" ? "bg-[#f9f5d7]" : "bg-[#282828]")
+                }
+            >
                 <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-                    <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-[#8f3f7f]">
+                    <h2
+                        className={
+                            "mt-10 text-center text-2xl/9 font-bold tracking-tight " +
+                            (currentTheme === "light" ? "text-[#8f3f7f]" : "text-[#fbf1c7]")
+                        }
+                    >
                         Sign in to your account
                     </h2>
                 </div>
@@ -51,7 +63,10 @@ const SignIn = () => {
                         <div>
                             <label
                                 htmlFor="email"
-                                className="block text-md/6 font-medium text-[#504945]"
+                                className={
+                                    "block text-md/6 font-medium " +
+                                    (currentTheme === "light" ? "text-[#504945]" : "text-[#fabd2f]")
+                                }
                             >
                                 Email address
                             </label>
@@ -73,7 +88,12 @@ const SignIn = () => {
                             <div className="flex items-center justify-between">
                                 <label
                                     htmlFor="password"
-                                    className="block text-md/6 font-medium text-[#504945]"
+                                    className={
+                                        "block text-md/6 font-medium " +
+                                        (currentTheme === "light"
+                                            ? "text-[#504945]"
+                                            : "text-[#fabd2f]")
+                                    }
                                 >
                                     Password
                                 </label>
@@ -94,7 +114,12 @@ const SignIn = () => {
                         <div>
                             <button
                                 type="submit"
-                                className="flex w-full justify-center rounded-md bg-[#282828] px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-[#504945]"
+                                className={
+                                    "flex w-full justify-center rounded-md px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs " +
+                                    (currentTheme === "light"
+                                        ? "bg-[#282828] hover:bg-[#504945]"
+                                        : " bg-[#fe8019] hover:bg-[#d65d0e]")
+                                }
                                 onClick={handleSignIn}
                             >
                                 Sign in
@@ -102,10 +127,20 @@ const SignIn = () => {
                         </div>
                     </form>
                 </div>
-                <div className="self-center p-2 text-[#689d6a]">
+                <div
+                    className={
+                        "self-center p-2 " +
+                        (currentTheme === "light" ? "text-[#689d6a]" : "text-[#fbf1c7]")
+                    }
+                >
                     Don't have an account?
                     <Link
-                        className="text-[#458588] text-lg  border-b-[#458588] border-b-1 hover:text-[#076678]"
+                        className={
+                            "text-lg  border-b-1 " +
+                            (currentTheme === "light"
+                                ? "text-[#458588] border-b-[#458588]"
+                                : "text-[#8ec07c] border-b-[#8ec07c]")
+                        }
                         to="/signup"
                     >
                         create an account

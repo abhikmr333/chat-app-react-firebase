@@ -5,6 +5,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { DEFAULT_USER_AVATAR } from "../utils/constants";
 import { CLOUDINARY_API_URL } from "../utils/constants";
+import { useSelector } from "react-redux";
 
 const SignUp = () => {
     const [userName, setUserName] = useState("");
@@ -12,6 +13,7 @@ const SignUp = () => {
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState(null);
     const [profilePic, setProfilePic] = useState(DEFAULT_USER_AVATAR);
+    const currentTheme = useSelector((store) => store.theme.currentTheme);
 
     const uploadImageToCloudinary = async (event) => {
         setErrorMessage(null);
@@ -89,9 +91,19 @@ const SignUp = () => {
 
     return (
         <>
-            <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+            <div
+                className={
+                    "flex  flex-1 flex-col justify-center px-4 lg:px-8 " +
+                    (currentTheme === "light" ? "bg-[#f9f5d7]" : "bg-[#282828]")
+                }
+            >
                 <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-                    <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">
+                    <h2
+                        className={
+                            "mt-10 text-center text-2xl/9 font-bold tracking-tight " +
+                            (currentTheme === "light" ? "text-[#8f3f7f]" : "text-[#fbf1c7]")
+                        }
+                    >
                         Create an Account
                     </h2>
                 </div>
@@ -116,7 +128,10 @@ const SignUp = () => {
                         <div>
                             <label
                                 htmlFor="username"
-                                className="block text-sm/6 font-medium text-gray-900"
+                                className={
+                                    "block text-md/6 font-medium " +
+                                    (currentTheme === "light" ? "text-[#504945]" : "text-[#fabd2f]")
+                                }
                             >
                                 Username
                             </label>
@@ -133,7 +148,10 @@ const SignUp = () => {
                         <div>
                             <label
                                 htmlFor="email"
-                                className="block text-sm/6 font-medium text-gray-900"
+                                className={
+                                    "block text-md/6 font-medium " +
+                                    (currentTheme === "light" ? "text-[#504945]" : "text-[#fabd2f]")
+                                }
                             >
                                 Email address
                             </label>
@@ -155,7 +173,12 @@ const SignUp = () => {
                             <div className="flex items-center justify-between">
                                 <label
                                     htmlFor="password"
-                                    className="block text-sm/6 font-medium text-gray-900"
+                                    className={
+                                        "block text-md/6 font-medium " +
+                                        (currentTheme === "light"
+                                            ? "text-[#504945]"
+                                            : "text-[#fabd2f]")
+                                    }
                                 >
                                     Password
                                 </label>
@@ -191,7 +214,12 @@ const SignUp = () => {
                         <div>
                             <button
                                 type="submit"
-                                className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                className={
+                                    "flex w-full justify-center rounded-md px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs " +
+                                    (currentTheme === "light"
+                                        ? "bg-[#282828] hover:bg-[#504945]"
+                                        : " bg-[#fe8019] hover:bg-[#d65d0e]")
+                                }
                             >
                                 Sign Up
                             </button>
