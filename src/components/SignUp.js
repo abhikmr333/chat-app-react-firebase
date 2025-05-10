@@ -100,7 +100,7 @@ const SignUp = () => {
                 <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                     <h2
                         className={
-                            "mt-10 text-center text-2xl/9 font-bold tracking-tight " +
+                            "mt-10 text-center text-3xl/9 font-bold tracking-tight " +
                             (currentTheme === "light" ? "text-[#8f3f7f]" : "text-[#fbf1c7]")
                         }
                     >

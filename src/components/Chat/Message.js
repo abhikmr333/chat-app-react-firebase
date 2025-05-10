@@ -14,7 +14,7 @@ const Message = () => {
 
     useEffect(() => {
         endRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, []);
+    }, [chat?.messages]);
 
     //for fetching messages
     useEffect(() => {
