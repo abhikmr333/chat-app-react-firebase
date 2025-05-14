@@ -12,4 +12,4 @@ export const IMAGE_ICON_LIGHT =
 export const EMOJI_ICON =
     "https://res.cloudinary.com/dvvywgynj/image/upload/v1747219810/icons8-smiling-face-with-smiling-eyes-48_iuk0nt.png";
 export const SEND_ICON =
-    "https://res.cloudinary.com/dvvywgynj/image/upload/v1747220508/icons8-paper-plane-50_mkzphc.png";
+    "https://res.cloudinary.com/dvvywgynj/image/upload/v1747234182/icons8-paper-plane-90_osw0dl.png";
