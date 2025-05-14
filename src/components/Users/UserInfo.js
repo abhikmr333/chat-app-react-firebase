@@ -14,7 +14,7 @@ const UserInfo = () => {
             />
             <div className="min-w-0 flex-auto">
                 <p
-                    className={`text-md/6 font-semibold ${
+                    className={`text-lg/6 font-semibold ${
                         currentTheme === "light" ? "text-[#3c3836]" : "text-[#fbf1c7]"
                     }`}
                 >

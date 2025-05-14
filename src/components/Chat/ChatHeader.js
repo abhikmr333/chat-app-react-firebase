@@ -7,10 +7,15 @@ const ChatHeader = () => {
         isReceiverBlocked,
         isCurrentUserBlocked,
     } = useSelector((store) => store.chat);
+    const currentTheme = useSelector((store) => store.theme.currentTheme);
 
     return (
         currentReceiver && (
-            <header className="flex p-5 justify-between border-b-1">
+            <header
+                className={`flex p-3 justify-between border-b-1 ${
+                    currentTheme === "light" ? "text-[#3c3836]" : "text-[#f9f5d7]"
+                } `}
+            >
                 <div className="flex items-center gap-5 cursor-pointer">
                     <img
                         src={
@@ -18,16 +23,12 @@ const ChatHeader = () => {
                                 ? BLOCKED_USER_AVATAR
                                 : currentReceiver?.avatar
                         }
-                        className="w-[30px]"
+                        className="w-[50px]"
                         alt="User Avatar"
                     />
                     <div>
-                        <span>{currentReceiver?.username}</span>
-                        <p>hello....</p>
+                        <span className="text-2xl font-semibold">{currentReceiver?.username}</span>
                     </div>
-                </div>
-                <div>
-                    <button className="bg-blue-600 text-white">Info</button>
                 </div>
             </header>
         )

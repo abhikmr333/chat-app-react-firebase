@@ -5,3 +5,11 @@ export const DEFAULT_USER_AVATAR =
     "https://res.cloudinary.com/dvvywgynj/image/upload/v1744460508/icons8-user-avatar-96_rd6owx.png";
 export const MAGNIFYING_GLASS =
     "https://res.cloudinary.com/dvvywgynj/image/upload/v1747059666/pngegg_gtsleh.png";
+export const IMAGE_ICON_DARK =
+    "https://res.cloudinary.com/dvvywgynj/image/upload/v1747217644/icons8-image-50_1_gmoo4u.png";
+export const IMAGE_ICON_LIGHT =
+    "https://res.cloudinary.com/dvvywgynj/image/upload/v1747217623/icons8-image-50_ocvqho.png";
+export const EMOJI_ICON =
+    "https://res.cloudinary.com/dvvywgynj/image/upload/v1747219810/icons8-smiling-face-with-smiling-eyes-48_iuk0nt.png";
+export const SEND_ICON =
+    "https://res.cloudinary.com/dvvywgynj/image/upload/v1747220508/icons8-paper-plane-50_mkzphc.png";

@@ -2,7 +2,13 @@ import { useRef, useState } from "react";
 import { updateDoc, doc, getDoc, arrayUnion } from "firebase/firestore";
 import { useSelector } from "react-redux";
 import { db } from "../../lib/firebase";
-import { CLOUDINARY_API_URL } from "../../utils/constants";
+import {
+    CLOUDINARY_API_URL,
+    EMOJI_ICON,
+    IMAGE_ICON_DARK,
+    IMAGE_ICON_LIGHT,
+    SEND_ICON,
+} from "../../utils/constants";
 
 const ChatFooter = () => {
     const textRef = useRef("");
@@ -14,6 +20,7 @@ const ChatFooter = () => {
     const currentUser = useSelector((store) => store.user.currentUser);
     //receiver
     const { user, isReceiverBlocked, isCurrentUserBlocked } = useSelector((store) => store.chat);
+    const currentTheme = useSelector((store) => store.theme.currentTheme);
 
     const uploadToCloudinary = async () => {
         //fetch request with appropriate preset
@@ -91,46 +98,55 @@ const ChatFooter = () => {
 
     return (
         <footer
-            className={
-                "flex justify-between border-1 p-5 items-center mt-auto" +
-                (isReceiverBlocked || isCurrentUserBlocked
-                    ? " cursor-not-allowed"
-                    : " cursor-pointer")
-            }
+            className={`flex justify-between border-t-1 p-3 items-center mt-auto 
+                ${
+                    isReceiverBlocked || isCurrentUserBlocked
+                        ? " cursor-not-allowed"
+                        : " cursor-pointer"
+                } ${currentTheme === "light" ? "border-black" : "border-[#f9f5d7]"}
+            `}
         >
-            <label htmlFor="image">
-                <div className="bg-blue-500 text-white">image</div>
+            <label
+                className={currentTheme === "light" ? "" : "bg-white p-1 rounded-md"}
+                htmlFor="image"
+            >
+                <img
+                    className="h-8"
+                    src={currentTheme === "light" ? IMAGE_ICON_DARK : IMAGE_ICON_LIGHT}
+                    alt="image icon"
+                />
             </label>
             <input
                 type="file"
                 id="image"
                 accept="image/png, image/jpeg"
-                class="hidden"
+                className="hidden"
                 onChange={handleFileChange}
                 disabled={isReceiverBlocked || isCurrentUserBlocked}
             />
 
             <input
-                className="w-96 text-black border-1"
+                className={`w-[500px] border-1 rounded-md ${
+                    currentTheme === "light"
+                        ? "text-black border-black"
+                        : "text-[#f9f5d7] border-[#f9f5d7] placeholder-white"
+                }`}
                 type="text"
                 placeholder="Type Message..."
                 ref={textRef}
                 disabled={isReceiverBlocked || isCurrentUserBlocked}
             />
 
-            <div>
-                <button
-                    className="bg-blue-500 text-white mr-4"
-                    disabled={isReceiverBlocked || isCurrentUserBlocked}
-                >
-                    Emoji
+            <div className="flex items-center">
+                <button disabled={isReceiverBlocked || isCurrentUserBlocked}>
+                    <img className="h-8 mr-4" src={EMOJI_ICON} alt="emoji icon" />
                 </button>
                 <button
-                    className="bg-blue-500 text-white"
+                    className="bg-white rounded-md shadow-md p-1"
                     disabled={isReceiverBlocked || isCurrentUserBlocked}
                     onClick={handleSend}
                 >
-                    Send
+                    <img className="h-8" src={SEND_ICON} alt="send icon" />
                 </button>
             </div>
         </footer>

@@ -11,6 +11,7 @@ const Message = () => {
     );
     const currentUser = useSelector((store) => store.user.currentUser);
     const [chat, setChat] = useState(null);
+    const currentTheme = useSelector((store) => store.theme.currentTheme);
 
     useEffect(() => {
         endRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -32,11 +33,20 @@ const Message = () => {
             {chat && currentUser ? (
                 chat.messages.map((message) => (
                     <div
-                        className={
-                            (message.senderId === currentUser.id
-                                ? "ml-auto bg-gray-300"
-                                : "mr-auto bg-blue-400") + " w-72  m-1 rounded-md p-1"
-                        }
+                        className={`
+                            ${
+                                message.senderId === currentUser.id
+                                    ? `ml-auto ${
+                                          currentTheme === "light"
+                                              ? "bg-[#333333] text-white"
+                                              : "bg-[#bcebd7]"
+                                      }`
+                                    : `mr-auto ${
+                                          currentTheme === "light"
+                                              ? "bg-[#555555] text-white"
+                                              : "bg-[#b5dfb2]"
+                                      }`
+                            }  w-72  m-1 rounded-md p-1`}
                         key={message.createdAt}
                     >
                         {message.image ? (
