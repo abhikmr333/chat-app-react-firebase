@@ -12,6 +12,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../../lib/firebase";
 import { useSelector } from "react-redux";
+import { MAGNIFYING_GLASS } from "../../utils/constants";
 
 const AddUser = () => {
     //toggleAddUser is different from addUser
@@ -19,6 +20,7 @@ const AddUser = () => {
     const userRef = useRef("");
     const [user, setUser] = useState(null);
     const currentUser = useSelector((state) => state.user.currentUser);
+    const currentTheme = useSelector((store) => store.theme.currentTheme);
 
     //two users linked to one chat id which will then be used to search the chat messages
     const createNewChat = async () => {
@@ -78,7 +80,10 @@ const AddUser = () => {
     return (
         <>
             <button
-                className={(toggleAddUser ? "bg-red-400 " : "bg-blue-400 ") + "text-white w-64 m-1"}
+                className={
+                    (toggleAddUser ? "bg-red-300 " : "bg-green-300 ") +
+                    "text-black w-64 m-1 rounded-sm"
+                }
                 onClick={() => {
                     setUser(null);
                     setToggleAddUser((prev) => !prev);
@@ -87,14 +92,26 @@ const AddUser = () => {
                 {toggleAddUser ? "Close" : "Add User"}
             </button>
             {toggleAddUser && (
-                <div className="m-2 p-2 flex-col justify-between border-1">
-                    <div>
-                        <input ref={userRef} className="border-1 rounded-md" type="text" />
+                <div
+                    className={`m-2 p-2 border-1 rounded-md ${
+                        currentTheme === "light" ? "border-black" : "border-white"
+                    }`}
+                >
+                    <div className="flex justify-between">
+                        <input
+                            ref={userRef}
+                            className={`border-1 rounded-md ${
+                                currentTheme === "light"
+                                    ? "border-black text-black"
+                                    : "border-white text-[#f9f5d7]"
+                            }`}
+                            type="text"
+                        />
                         <button
                             onClick={searchUser}
-                            className="bg-blue-400 text-white ml-0.5 rounded-md"
+                            className="text-white ml-0.5 rounded-md p-1 bg-[#f5b3d1]"
                         >
-                            search
+                            <img className="h-6" src={MAGNIFYING_GLASS} alt="Search" />
                         </button>
                     </div>
                     {user !== null &&

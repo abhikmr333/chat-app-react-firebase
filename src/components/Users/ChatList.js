@@ -12,6 +12,7 @@ const ChatList = () => {
     const [chats, setChats] = useState([]);
     const [filterInput, setFilterInput] = useState("");
     const dispatch = useDispatch();
+    const currentTheme = useSelector((store) => store.theme.currentTheme);
 
     useEffect(() => {
         //attaching a listener so the records are fetched everytime userChats changes
@@ -70,7 +71,11 @@ const ChatList = () => {
             {/* filter users */}
             <div>
                 <input
-                    className="border w-64 m-1 "
+                    className={`border w-64 m-1 rounded-sm ${
+                        currentTheme === "light"
+                            ? "border-[#3c3836] text-black"
+                            : "border-white placeholder-white text-white"
+                    }`}
                     placeholder="Search Chats"
                     type="text"
                     value={filterInput}
@@ -81,16 +86,27 @@ const ChatList = () => {
                 {filteredChats.map((chat) => (
                     <div
                         className={`${
-                            chat.isSeen ? "bg-white" : "bg-green-300"
-                        } flex items-center gap-5 p-5 cursor-pointer border-b-black border-b-1`}
+                            currentTheme === "light"
+                                ? "bg-[#3c3836] text-white border-b-1 border-b-white"
+                                : "bg-[#f9f5d7] text-black border-b-1 border-b-white"
+                        } flex items-center justify-between gap-5 mt-1 cursor-pointer`}
                         key={chat.chatId}
                         onClick={() => handleSelectedChat(chat)}
                     >
-                        <img src={chat.userData.avatar} className="w-[30px]" alt="User Avatar" />
-                        <div className="flex-col">
-                            <span>{chat.userData.username}</span>
-                            <p>{chat.lastMessage}</p>
+                        <div className="flex items-center">
+                            <img
+                                src={chat.userData.avatar}
+                                className="w-[45px] h-[45px] m-1"
+                                alt="User Avatar"
+                            />
+                            <div>
+                                <span className="text-lg font-semibold ">
+                                    {chat.userData.username}
+                                </span>
+                                <p className="text-md font-light">{chat.lastMessage}</p>
+                            </div>
                         </div>
+                        <p className={`${chat.isSeen ? "text-blue-400" : "text-white"} m-4`}>✓</p>
                     </div>
                 ))}
             </div>

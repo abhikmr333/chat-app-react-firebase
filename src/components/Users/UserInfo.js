@@ -6,19 +6,18 @@ const UserInfo = () => {
     const currentTheme = useSelector((state) => state.theme.currentTheme);
 
     return (
-        <div
-            className={
-                "flex h-[100px] gap-x-4 p-4 items-center " +
-                (currentTheme === "light" ? "bg-[#f9f5d7]" : "bg-[#282828]")
-            }
-        >
+        <div className={"flex h-[100px] gap-x-4 p-4 items-center"}>
             <img
                 className="size-12 flex-none rounded-full bg-gray-50"
                 src={currentUser && currentUser.avatar}
                 alt="userAvatar"
             />
             <div className="min-w-0 flex-auto">
-                <p className="text-sm/6 font-semibold text-gray-900">
+                <p
+                    className={`text-md/6 font-semibold ${
+                        currentTheme === "light" ? "text-[#3c3836]" : "text-[#fbf1c7]"
+                    }`}
+                >
                     {currentUser && currentUser.username}
                 </p>
             </div>
