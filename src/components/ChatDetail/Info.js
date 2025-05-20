@@ -7,6 +7,7 @@ const Info = () => {
         isReceiverBlocked,
         isCurrentUserBlocked,
     } = useSelector((store) => store.chat);
+    const currentTheme = useSelector((store) => store.theme.currentTheme);
 
     return (
         currentReceiver && (
@@ -20,10 +21,12 @@ const Info = () => {
                     alt="User Profile"
                     className="w-20 h-20"
                 />
-                <p>{currentReceiver?.username}</p>
-                <p className="w-72">
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Placeat corporis a
-                    odit quis
+                <p
+                    className={`text-3xl font-semibold ${
+                        currentTheme === "light" ? "text-black" : "text-[#f9f5d7]"
+                    }`}
+                >
+                    {currentReceiver?.username}
                 </p>
             </div>
         )

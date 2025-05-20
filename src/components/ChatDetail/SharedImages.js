@@ -8,6 +8,7 @@ const SharedImages = () => {
     const chatIdOfCurrentConversation = useSelector(
         (store) => store.chat.chatIdOfCurrentConversation
     );
+    const currentTheme = useSelector((store) => store.theme.currentTheme);
 
     useEffect(() => {
         if (chatIdOfCurrentConversation) {
@@ -25,13 +26,31 @@ const SharedImages = () => {
     }, [chatIdOfCurrentConversation]);
 
     return (
-        <div className="max-w-50 max-h-50">
-            <div className="overflow-auto">
+        <div className="flex flex-col items-center">
+            <p
+                className={`text-xl font-light ${
+                    currentTheme === "light" ? "text-[#282828]" : "text-[#f9f5d7]"
+                }`}
+            >
+                SHARED IMAGES
+            </p>
+            <div
+                className={`overflow-y-auto border-3  w-72 h-56 flex flex-wrap justify-center rounded-sm ${
+                    currentTheme === "light" ? "border-[#282828]" : "border-[#f9f5d7]"
+                }`}
+            >
                 {images &&
-                    images.map((image, index) => (
-                        <div className="flex border-1 border-black" key={image}>
-                            <img className="w-10 h-10" src={image} alt={image} />
-                            <p className="text-black">{"Photo " + (index + 1)}</p>
+                    images.map((image) => (
+                        <div key={image}>
+                            <img
+                                className={`w-20 h-20 m-1 rounded-md  border-1 ${
+                                    currentTheme === "light"
+                                        ? "border-[#282828]"
+                                        : "border-[#f9f5d7]"
+                                }`}
+                                src={image}
+                                alt={image}
+                            />
                         </div>
                     ))}
             </div>
