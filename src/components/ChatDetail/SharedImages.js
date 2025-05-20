@@ -5,11 +5,11 @@ import { doc, onSnapshot } from "firebase/firestore";
 
 const SharedImages = () => {
     const [images, setImages] = useState(null);
-    const chatIdOfCurrentConversation = useSelector(
-        (store) => store.chat.chatIdOfCurrentConversation
+    const { chatIdOfCurrentConversation, isCurrentUserBlocked, isReceiverBlocked } = useSelector(
+        (store) => store.chat
     );
     const currentTheme = useSelector((store) => store.theme.currentTheme);
-
+    console.log(isCurrentUserBlocked);
     useEffect(() => {
         if (chatIdOfCurrentConversation) {
             const chatMessagesRef = doc(db, "chats", chatIdOfCurrentConversation);
@@ -25,21 +25,22 @@ const SharedImages = () => {
         }
     }, [chatIdOfCurrentConversation]);
 
+    //to check if either currentReceiver is blocked or currentUser is blocked
+    const isEitherUserBlocked = isCurrentUserBlocked || isReceiverBlocked;
+
     return (
-        <div className="flex flex-col items-center">
-            <p
-                className={`text-xl font-light ${
-                    currentTheme === "light" ? "text-[#282828]" : "text-[#f9f5d7]"
-                }`}
-            >
-                SHARED IMAGES
-            </p>
+        <div
+            className={`flex flex-col items-center ${
+                currentTheme === "light" ? "text-[#282828]" : "text-[#f9f5d7]"
+            }`}
+        >
+            <p className={`text-xl font-light `}>SHARED IMAGES</p>
             <div
                 className={`overflow-y-auto border-3  w-72 h-56 flex flex-wrap justify-center rounded-sm ${
                     currentTheme === "light" ? "border-[#282828]" : "border-[#f9f5d7]"
                 }`}
             >
-                {images &&
+                {images && !isEitherUserBlocked ? (
                     images.map((image) => (
                         <div key={image}>
                             <img
@@ -52,7 +53,10 @@ const SharedImages = () => {
                                 alt={image}
                             />
                         </div>
-                    ))}
+                    ))
+                ) : (
+                    <p className="font-semibold text-lg">No Shared Images Found!</p>
+                )}
             </div>
         </div>
     );
