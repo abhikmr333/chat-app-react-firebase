@@ -76,7 +76,7 @@ const ChatFooter = () => {
                     const chatAtIndex = userChatsData.chats.findIndex(
                         (chat) => chat.chatId === chatIdOfCurrentConversation
                     );
-                    userChatsData.chats[chatAtIndex].lastMessage = text ? text : imageFile.name;
+                    userChatsData.chats[chatAtIndex].lastMessage = text ? text : imageFile?.name;
                     userChatsData.chats[chatAtIndex].isSeen = id === currentUser.id ? true : false;
                     userChatsData.chats.updatedAt = Date.now();
                     //merge the updated userChatsData.chats array
@@ -86,6 +86,7 @@ const ChatFooter = () => {
                 }
             });
             if (imageFile) setImageFile(null);
+            if (text) setText("");
         } catch (err) {
             console.log(err.message);
         }
@@ -109,7 +110,7 @@ const ChatFooter = () => {
     const handleEmoji = (event) => {
         const { emoji } = event;
     };
-
+    console.log(text);
     return (
         <footer
             className={`flex justify-between border-t-1 p-3 items-center mt-auto 
