@@ -9,6 +9,7 @@ import {
     IMAGE_ICON_LIGHT,
     SEND_ICON,
 } from "../../utils/constants";
+import EmojiPicker from "emoji-picker-react";
 
 const ChatFooter = () => {
     const textRef = useRef("");
@@ -21,6 +22,7 @@ const ChatFooter = () => {
     //receiver
     const { user, isReceiverBlocked, isCurrentUserBlocked } = useSelector((store) => store.chat);
     const currentTheme = useSelector((store) => store.theme.currentTheme);
+    const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
     const uploadToCloudinary = async () => {
         //fetch request with appropriate preset
@@ -96,6 +98,10 @@ const ChatFooter = () => {
         setImageFile(imgFile);
     };
 
+    const switchEmojiPicker = () => {
+        setShowEmojiPicker((prev) => !prev);
+    };
+
     return (
         <footer
             className={`flex justify-between border-t-1 p-3 items-center mt-auto 
@@ -138,7 +144,10 @@ const ChatFooter = () => {
             />
 
             <div className="flex items-center">
-                <button disabled={isReceiverBlocked || isCurrentUserBlocked}>
+                <button
+                    disabled={isReceiverBlocked || isCurrentUserBlocked}
+                    onClick={switchEmojiPicker}
+                >
                     <img className="h-8 mr-4" src={EMOJI_ICON} alt="emoji icon" />
                 </button>
                 <button
@@ -149,6 +158,11 @@ const ChatFooter = () => {
                     <img className="h-8" src={SEND_ICON} alt="send icon" />
                 </button>
             </div>
+            {showEmojiPicker && (
+                <div className="absolute bottom-16 right-[486px]">
+                    <EmojiPicker />
+                </div>
+            )}
         </footer>
     );
 };

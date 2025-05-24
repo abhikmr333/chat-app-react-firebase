@@ -11,7 +11,11 @@ const Info = () => {
 
     return (
         currentReceiver && (
-            <div className="flex flex-col items-center p-2 border-1">
+            <div
+                className={`flex flex-col items-center p-2 border-1 ${
+                    currentTheme === "light" ? "border-[#282828]" : "border-[#f9f5d7]"
+                }`}
+            >
                 <img
                     src={
                         isReceiverBlocked || isCurrentUserBlocked

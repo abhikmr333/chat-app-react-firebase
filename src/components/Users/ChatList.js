@@ -103,7 +103,13 @@ const ChatList = () => {
                                 <span className="text-lg font-semibold ">
                                     {chat.userData.username}
                                 </span>
-                                <p className="text-md font-light">{chat.lastMessage}</p>
+                                <p
+                                    className="text-md font-light whitespace-normal break-words
+                                max-w-40
+                                "
+                                >
+                                    {chat.lastMessage}
+                                </p>
                             </div>
                         </div>
                         <p className={`${chat.isSeen ? "text-blue-400" : "text-white"} m-4`}>✓</p>
