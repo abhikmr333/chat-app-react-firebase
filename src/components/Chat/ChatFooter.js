@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { updateDoc, doc, getDoc, arrayUnion } from "firebase/firestore";
 import { useSelector } from "react-redux";
 import { db } from "../../lib/firebase";
@@ -12,7 +12,7 @@ import {
 import EmojiPicker from "emoji-picker-react";
 
 const ChatFooter = () => {
-    const textRef = useRef("");
+    const [text, setText] = useState("");
     const [imageFile, setImageFile] = useState(null);
     const chatIdOfCurrentConversation = useSelector(
         (store) => store.chat.chatIdOfCurrentConversation
@@ -44,7 +44,6 @@ const ChatFooter = () => {
     };
 
     const handleSend = async () => {
-        const { value: text } = textRef.current;
         //when text input is empty or no image file is selected
         if (text === "" && !imageFile) return;
         if (!chatIdOfCurrentConversation || !currentUser) return;
@@ -98,8 +97,17 @@ const ChatFooter = () => {
         setImageFile(imgFile);
     };
 
+    const handleText = (event) => {
+        const { value } = event.target;
+        setText(value);
+    };
+
     const switchEmojiPicker = () => {
         setShowEmojiPicker((prev) => !prev);
+    };
+
+    const handleEmoji = (event) => {
+        const { emoji } = event;
     };
 
     return (
@@ -139,7 +147,8 @@ const ChatFooter = () => {
                 }`}
                 type="text"
                 placeholder="Type Message..."
-                ref={textRef}
+                value={text}
+                onChange={handleText}
                 disabled={isReceiverBlocked || isCurrentUserBlocked}
             />
 
@@ -160,7 +169,7 @@ const ChatFooter = () => {
             </div>
             {showEmojiPicker && (
                 <div className="absolute bottom-16 right-[486px]">
-                    <EmojiPicker />
+                    <EmojiPicker onEmojiClick={handleEmoji} />
                 </div>
             )}
         </footer>
