@@ -87,6 +87,7 @@ const ChatFooter = () => {
             });
             if (imageFile) setImageFile(null);
             if (text) setText("");
+            if (showEmojiPicker) setShowEmojiPicker(false);
         } catch (err) {
             console.log(err.message);
         }
@@ -109,8 +110,9 @@ const ChatFooter = () => {
 
     const handleEmoji = (event) => {
         const { emoji } = event;
+        setText((prev) => prev + emoji);
     };
-    console.log(text);
+
     return (
         <footer
             className={`flex justify-between border-t-1 p-3 items-center mt-auto 
