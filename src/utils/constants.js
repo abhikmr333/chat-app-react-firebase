@@ -17,3 +17,5 @@ export const DARK_THEME_ICON =
     "https://res.cloudinary.com/dvvywgynj/image/upload/v1747234694/icons8-moon-96_qfeyrt.png";
 export const LIGHT_THEME_ICON =
     "https://res.cloudinary.com/dvvywgynj/image/upload/v1747234687/icons8-sun-50_1_rj0v05.png";
+export const APP_LOGO =
+    "https://res.cloudinary.com/dvvywgynj/image/upload/v1748089753/icons8-chat-100_tv44jg.png";

@@ -1,11 +1,16 @@
 import ThemeSelector from "./ThemeSelector";
+import { APP_LOGO } from "../utils/constants";
 
 const Header = () => {
     return (
-        <div className="flex justify-between border-b-1 ">
-            <header className="flex ">ChatApp </header>
+        <header className="flex justify-between bg-gradient-to-r from-[#2c3e50] to-[#bdc3c7]">
+            <div className="flex items-center ml-auto mr-auto">
+                <img className="h-11 " src={APP_LOGO} alt="chatapp logo" />
+                <p className="font-extrabold text-3xl text-gray-200">chatapp</p>
+            </div>
+
             <ThemeSelector />
-        </div>
+        </header>
     );
 };
 
