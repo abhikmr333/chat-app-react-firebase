@@ -22,7 +22,7 @@
         "@tailwindcss/postcss": "^4.0.0",
         "buffer": "^6.0.3",
         "crypto-browserify": "^3.12.1",
-        "dotenv": "^16.4.7",
+        "dotenv": "^16.5.0",
         "events": "^3.3.0",
         "os-browserify": "^0.3.0",
         "parcel": "^2.13.3",
