@@ -25,7 +25,7 @@
         "dotenv": "^16.5.0",
         "events": "^3.3.0",
         "os-browserify": "^0.3.0",
-        "parcel": "^2.13.3",
+        "parcel": "^2.15.2",
         "path-browserify": "^1.0.1",
         "process": "^0.11.10",
         "stream-browserify": "^3.0.0",
@@ -40,6 +40,7 @@
         "react": "^19.0.0",
         "react-dom": "^19.0.0",
         "react-redux": "^9.2.0",
+        "react-router": "^7.6.1",
         "react-router-dom": "^7.1.5"
     }
 }
