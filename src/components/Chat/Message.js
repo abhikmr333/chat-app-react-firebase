@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../../lib/firebase";
-import Loading from "../loading";
+import Shimmer from "../Shimmer";
 
 const Message = () => {
     const endRef = useRef(null);
@@ -66,7 +66,7 @@ const Message = () => {
                     </div>
                 ))
             ) : (
-                <Loading />
+                <Shimmer />
             )}
             {/* To Scroll towards the end of chat box */}
             <div ref={endRef}></div>

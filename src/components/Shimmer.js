@@ -1,4 +1,4 @@
-const Loading = () => {
+const Shimmer = () => {
     return (
         <div>
             <p>Loading....</p>
@@ -6,4 +6,4 @@ const Loading = () => {
     );
 };
 
-export default Loading;
+export default Shimmer;

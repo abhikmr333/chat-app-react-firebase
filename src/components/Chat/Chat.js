@@ -2,7 +2,6 @@ import ChatHeader from "./ChatHeader";
 import ChatFooter from "./ChatFooter";
 import Messages from "./Messages";
 import { useSelector } from "react-redux";
-import { current } from "@reduxjs/toolkit";
 
 const Chat = () => {
     const currentTheme = useSelector((store) => store.theme.currentTheme);

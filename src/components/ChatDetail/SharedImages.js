@@ -9,7 +9,7 @@ const SharedImages = () => {
         (store) => store.chat
     );
     const currentTheme = useSelector((store) => store.theme.currentTheme);
-    console.log(isCurrentUserBlocked);
+
     useEffect(() => {
         if (chatIdOfCurrentConversation) {
             const chatMessagesRef = doc(db, "chats", chatIdOfCurrentConversation);
